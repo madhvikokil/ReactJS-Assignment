@@ -1,0 +1,17 @@
+import React from 'react';
+import Aux from '../../hoc/Aux';
+import classes from './Layout.css';
+
+// another option is to use <div>
+// return array instead of JSX
+const layout = (props) => (
+    <Aux>    
+                       
+        <div>Toolbar ,SideDrawer, Backdrop</div>
+        <main className={classes.Content}>
+            {props.children}
+        </main>
+    </Aux>
+);
+
+export default layout;
