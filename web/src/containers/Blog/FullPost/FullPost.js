@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from '../../axios';
+import Axios from '../../../axios';
 
 import './FullPost.css';
 
@@ -8,8 +8,9 @@ class FullPost extends Component {
         loadedPosts : null
     }
     
-    componentDidUpdate() {
-        if(this.props.id){ // if id i strue
+    componentDidMount() {
+        console.log("update");
+        if(this.props.match.params.id){ // if id i strue
             console.log("this.props.id");
             console.log(this.props.id);
             console.log("this.state.loadPost = "+this.state.loadedPosts);
@@ -20,7 +21,7 @@ class FullPost extends Component {
 //           //  console.log(this.state.loadedPosts.id);
 //           console.log("this.props.id");
 //   //  console.log(this.props.id);
-        Axios.get('/posts/'+this.props.id)
+        Axios.get('/posts/'+this.props.match.params.id)
             .then(response => {
                 //console.log(response);
                 this.setState({loadedPosts:response.data}); // updating state within the component(infinite loop)
