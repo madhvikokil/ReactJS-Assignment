@@ -9,35 +9,48 @@ class FullPost extends Component {
     }
     
     componentDidMount() {
-        console.log("update");
-        if(this.props.match.params.id){ // if id i strue
-            console.log("this.props.id");
-            console.log(this.props.id);
-            console.log("this.state.loadPost = "+this.state.loadedPosts);
-            console.log(this.state.loadedPosts);
-           
-            if(!this.state.loadedPosts || (this.state.loadedPosts && this.state.loadedPosts.id !==this.props.id))
+        // console.log("update");
+        console.log(this.props);
+        this.loadData();
+     
+}
+
+componentDidUpdate () {
+    this.loadData();
+       
+}
+
+loadData () {
+    if(this.props.match.params.id){ // if id i strue
+        console.log("this.props.id");
+        console.log(this.props.id);
+        console.log("this.state.loadPost = "+this.state.loadedPosts);
+        console.log(this.state.loadedPosts);
+       
+        if(!this.state.loadedPosts || (this.state.loadedPosts && this.state.loadedPosts.id != this.props.match.params.id))
 //             console.log("this.state.loadedPosts.id");
 //           //  console.log(this.state.loadedPosts.id);
 //           console.log("this.props.id");
 //   //  console.log(this.props.id);
-        Axios.get('/posts/'+this.props.match.params.id)
-            .then(response => {
-                //console.log(response);
-                this.setState({loadedPosts:response.data}); // updating state within the component(infinite loop)
-            });
-    }
+    Axios.get('/posts/'+this.props.match.params.id)
+        .then(response => {
+            //console.log(response);
+            this.setState({loadedPosts:response.data}); // updating state within the component(infinite loop)
+        });
+}
 }
 
+
+
     deletePostHandler = () => {
-        Axios.delete('/posts/'+this.props.id)
+        Axios.delete('/posts/'+this.prop.match.params.id)
             .then(response => {
                 console.log(response);
             });
     }
     render () {
-        let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
-        if(this.props.id){
+        let post = <p style={{textAlign:'center'}}>Please select a Post!</p>
+        if(this.props.match.params.id){
         let post = <p style={{textAlign:'center'}}>Loading!</p>;
         }
 
