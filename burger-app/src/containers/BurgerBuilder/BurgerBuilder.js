@@ -120,44 +120,27 @@ class BurgerBuilder extends Component {
         }
 
         purchaseContinueHandler =() => {
-            console.log("hey");
-            //alert("You Continue!!!")
-            // Sending a post Request by Axios
-            // order want to store in backened
-            this.setState({loading : true})
-            const order = { 
-                ingredients : this.state.ingredients,
-                price : this.state.totalPrice,
-                customer : {
-                    name : 'madhvi',
-                    address : {
-                        street: 'TestStreet 1',
-                        zipCode : '41351',
-                        country : 'Germany'
-                    },
-                    email : 'test@test.com'
-                },
-                deliveryMethod : 'fastest'
-            }
-            console.log("here");
-            Axios.post('/order.json',order)
-            .then (response => {
-                this.setState({loading : false,purchasing:false})
-                console.log(response);
-                console.log("*********************************************");
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.header);
-                console.log(response.config);
-                console.log(response.request);
-                
-            })
-               
-            .catch ( error => {
-                this.setState({loading : false, purchasing:false})
-               console.log(error);
+            console.log(this.props);
+            console.log("here!!!")
+        
+        let queryParams = [];
+        console.log("ingredients = "+this.state.ingredients);
+        console.log(this.state.ingredients);
+        for(let i in this.state.ingredients){
+            console.log("encode ingredients");
+            console.log(encodeURIComponent(i));
+            console.log(encodeURIComponent(this.state.ingredients[i]));
+            queryParams.push(encodeURIComponent(i) + '='+encodeURIComponent(this.state.ingredients[i]));
+        }
+        queryParams.push('price='+ this.state.totalPrice)
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname : '/checkout',
+            search:'?' +queryString
         });
+        console.log("queryString = ");
+        console.log(queryString);
+        // this.props.history.push('/checkout')
     }
      
         render(){
