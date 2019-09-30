@@ -3,11 +3,11 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import Axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/action';
+import Axios from '../../axios-orders';
+import * as burgerBuilderReducer from '../../store/actions/index';
 
 // https://react-my-burger-1d23a.firebaseio.com/
 
@@ -21,12 +21,13 @@ class BurgerBuilder extends Component {
         //     meat :0
         // },
        
-        purchaseable : false,
-        purchasing:false,
-        loading:false
+        // purchaseable : false,
+        purchasing:false
+    //     loading:false
     }
 
     componentDidMount (){
+        this.props.onInitIngredients();
         // Axios.get('https://react-my-burger-1d23a.firebaseio.com/ingredients.json')
         //     .then(response => {
         //         this.setState({ingredients: response.data});
@@ -191,15 +192,17 @@ class BurgerBuilder extends Component {
 const mapStateToProps =state => {
     return{
         ings : state.ingredients,
-        price : state.totalPrice
+        price : state.totalPrice,
+        error : state.error
 
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        onIngredientAdded : (ingName) => dispatch({type:actionTypes.ADD_INGREDIENT,ingredientName : ingName}),
-        onIngredientRemoved : (ingName) => dispatch({type:actionTypes.REMOVE_INGREDIENT,ingredientName : ingName})
+        onIngredientAdded : (ingName) => dispatch(burgerBuilderReducer.addIngredients(ingName)),
+        onIngredientRemoved : (ingName) => dispatch(burgerBuilderReducer.removeIngredients(ingName)),
+        onInitIngredients :() => dispatch(burgerBuilderReducer.initIngredients())
     }
 }
 
